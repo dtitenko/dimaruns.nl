@@ -12,7 +12,7 @@ dependencies {
 }
 
 application {
-    mainClass = "nl.dimaruns.generator.MainKt"
+    mainClass = "dimaruns.generator.MainKt"
 }
 
 val contentDir = layout.settingsDirectory.dir("content")
