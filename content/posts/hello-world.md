@@ -1,8 +1,8 @@
 ---
-title: Hello, World
+title: 15 lessons from sub-3 marathon training
 date: 2026-11-23
-summary: Why this blog is built with Kotlin Multiplatform and deployed to the edge.
-tags: [kotlin, meta]
+summary: Coming soon...
+tags: [running, motivation]
 ---
 
-First post. More soon.
+Coming soon: What have I learned training and executing a sub-3 marathon.
