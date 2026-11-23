@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dimaruns",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-20",
+
+  // The static site from the generator. Cloudflare serves it directly; the Worker only runs for
+  // /api/*. Security headers for static pages come from static/_headers.
+  "assets": {
+    "directory": "../generator/build/site",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // IDs come from `scripts/tofu.sh output` (infra/storage.tf). Not secret.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dimaruns",
+      "database_id": "710dbd42-f1f2-4653-9cd2-0547f2a4ea9c",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Cloudflare creates the DNS record and TLS certificate for a custom domain.
+  "routes": [{ "pattern": "dimaruns.nl", "custom_domain": true }],
+  "workers_dev": false,
+
+  "observability": { "enabled": true }
+}

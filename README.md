@@ -10,7 +10,10 @@ flowchart LR
     gen --> dist[static site]
     dist --> cf[(Cloudflare Workers + Static Assets)]
     edge --> cf
+    edge --> d1[(D1: view counts)]
 ```
+
+Cloudflare serves static pages directly, with security headers from `static/_headers`. The Kotlin Worker runs only for `/api/*`.
 
 ## Modules
 
@@ -19,7 +22,7 @@ flowchart LR
 | `build-logic/` | Gradle convention plugins (`dimaruns.kotlin-jvm`, `dimaruns.kotlin-multiplatform`, `dimaruns.quality`) |
 | `shared/` | Post model, front-matter schema, slug rules and validation, compiled for JVM and JS |
 | `generator/` | JVM CLI that turns Markdown into the static site |
-| `edge/` | *(planned)* Cloudflare Worker for dynamic features |
+| `edge/` | Cloudflare Worker (Kotlin/JS): `GET /api/health`, `GET`/`POST /api/views/<slug>` backed by D1 |
 | `infra/` | OpenTofu: Cloudflare zone, DNS, D1/KV/R2 ([details](infra/README.md)) |
 
 ## Development
@@ -36,6 +39,25 @@ Requires JDK 21. Everything else (Gradle, Node.js for the JS tests) is downloade
 ```
 
 The build uses the configuration cache and build cache. All repositories are declared in `settings.gradle.kts`, and modules cannot add their own. `generateSite` declares its inputs and outputs, so it is skipped when content hasn't changed and can be restored from the build cache.
+
+### Worker
+
+```sh
+./gradlew :generator:generateSite :edge:assembleWorker   # site + Worker JS
+cd edge && npm ci
+npm run migrate:local && npm run dev                     # full site + API on http://localhost:8787, local D1
+```
+
+## Deployment
+
+Pushes to `main` run CI. The `deploy` job then takes the tested site and Worker artifacts, applies D1 migrations, runs `wrangler deploy` and smoke-tests `https://dimaruns.nl`. It runs in the `production` environment, so it waits for approval when that environment has required reviewers. It needs the secret `CLOUDFLARE_API_TOKEN` and the variable `CLOUDFLARE_ACCOUNT_ID`.
+
+To deploy manually (credentials come from `.env`):
+
+```sh
+./gradlew :generator:generateSite :edge:assembleWorker
+cd edge && set -a && . ../.env && set +a && npm run migrate && npm run deploy
+```
 
 ## Writing posts
 

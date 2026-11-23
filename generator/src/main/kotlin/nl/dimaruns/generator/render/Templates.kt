@@ -31,10 +31,12 @@ class Templates(
             article("post") {
                 header {
                     h1 { +post.meta.title }
-                    postMeta(post)
+                    postMeta(post, showViews = true)
                 }
                 div("post-body") { unsafe { +post.html } }
             }
+            // External module script (not inline) so the strict CSP in static/_headers applies.
+            script(type = "module", src = "/assets/views.js") {}
         }
 
     fun tagIndex(tags: Map<String, List<Post>>): String =
@@ -150,13 +152,18 @@ class Templates(
         }
     }
 
-    private fun FlowContent.postMeta(post: Post) {
+    private fun FlowContent.postMeta(
+        post: Post,
+        showViews: Boolean = false,
+    ) {
         p("post-meta") {
             time {
                 attributes["datetime"] = post.meta.date.toString()
                 +format(post.meta.date)
             }
             +" · ${post.readingMinutes} min read"
+            // Filled in by /assets/views.js from the edge API.
+            if (showViews) span { attributes["data-views"] = post.slug.value }
             if (post.meta.draft) {
                 +" · "
                 strong { +"Draft" }

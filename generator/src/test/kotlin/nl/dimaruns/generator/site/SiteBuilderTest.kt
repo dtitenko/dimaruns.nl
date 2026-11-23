@@ -38,6 +38,7 @@ class SiteBuilderTest :
             (static / "assets").createDirectories()
             (static / "assets" / "style.css").writeText("body{}")
             (static / "favicon.svg").writeText("<svg/>")
+            (static / "assets" / "views.js").writeText("")
             return static
         }
 

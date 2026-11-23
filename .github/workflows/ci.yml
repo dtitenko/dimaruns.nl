@@ -32,12 +32,20 @@ jobs:
       - name: Build, lint, test and render site
         run: ./gradlew build koverXmlReport --stacktrace
 
-      # Deploy jobs (phase 4) will consume this artifact instead of rebuilding.
+      # The deploy job ships exactly what was tested here instead of rebuilding.
       - name: Upload site
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: site
           path: generator/build/site/
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload Worker
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: worker
+          path: edge/build/worker/
           if-no-files-found: error
           retention-days: 7
 
@@ -47,3 +55,54 @@ jobs:
         with:
           name: test-reports
           path: '**/build/reports/'
+
+  deploy:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Protect this environment with required reviewers to gate production deploys.
+    environment:
+      name: production
+      url: https://dimaruns.nl
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+    defaults:
+      run:
+        working-directory: edge
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: edge/package-lock.json
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: site
+          path: generator/build/site
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: worker
+          path: edge/build/worker
+
+      - run: npm ci --no-fund --no-audit
+
+      # Migrations first: new code may need the new schema, and migrations are kept backwards compatible.
+      - name: Migrate D1
+        run: npx wrangler d1 migrations apply dimaruns --remote
+
+      - name: Deploy
+        run: npx wrangler deploy
+
+      - name: Smoke test
+        run: |
+          curl -fsS --retry 5 --retry-delay 3 --retry-all-errors https://dimaruns.nl/api/health
+          curl -fsS -o /dev/null https://dimaruns.nl/

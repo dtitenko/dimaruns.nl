@@ -3,6 +3,12 @@ plugins {
 }
 
 kotlin {
+    jvm()
+    js {
+        nodejs()
+        useEsModules()
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.serialization.core)

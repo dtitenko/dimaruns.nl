@@ -42,4 +42,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "dimaruns"
 
-include(":shared", ":generator")
+include(":shared", ":generator", ":edge")

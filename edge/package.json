@@ -1,0 +1,14 @@
+{
+  "name": "dimaruns-edge",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "migrate": "wrangler d1 migrations apply dimaruns --remote",
+    "migrate:local": "wrangler d1 migrations apply dimaruns --local",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.166.0"
+  }
+}
