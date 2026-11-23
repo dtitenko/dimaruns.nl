@@ -20,6 +20,7 @@ flowchart LR
 | `shared/` | Post model, front-matter schema, slug rules and validation, compiled for JVM and JS |
 | `generator/` | JVM CLI that turns Markdown into the static site |
 | `edge/` | *(planned)* Cloudflare Worker for dynamic features |
+| `infra/` | OpenTofu: Cloudflare zone, DNS, D1/KV/R2 ([details](infra/README.md)) |
 
 ## Development
 

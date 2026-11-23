@@ -13,3 +13,4 @@ node_modules/
 *.tfstate
 *.tfstate.*
 .terraform/
+.tools/
