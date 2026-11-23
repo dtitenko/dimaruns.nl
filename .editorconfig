@@ -14,3 +14,5 @@ indent_size = 2
 [*.{kt,kts}]
 ktlint_code_style = ktlint_official
 max_line_length = 120
+# kotlinx.html is a DSL with hundreds of tag builders; explicit imports would add noise.
+ij_kotlin_packages_to_use_import_on_demand = kotlinx.html.**

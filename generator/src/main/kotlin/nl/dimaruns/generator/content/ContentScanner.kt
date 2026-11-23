@@ -1,4 +1,4 @@
-package nl.dimaruns.generator
+package nl.dimaruns.generator.content
 
 import java.nio.file.Path
 import kotlin.io.path.extension

@@ -29,8 +29,17 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
-      - name: Build, lint and test
+      - name: Build, lint, test and render site
         run: ./gradlew build koverXmlReport --stacktrace
+
+      # Deploy jobs (phase 4) will consume this artifact instead of rebuilding.
+      - name: Upload site
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: site
+          path: generator/build/site/
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Upload test reports
         if: failure()

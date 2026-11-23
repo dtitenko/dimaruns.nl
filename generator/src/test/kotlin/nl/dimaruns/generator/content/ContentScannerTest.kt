@@ -1,4 +1,4 @@
-package nl.dimaruns.generator
+package nl.dimaruns.generator.content
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldBeEmpty

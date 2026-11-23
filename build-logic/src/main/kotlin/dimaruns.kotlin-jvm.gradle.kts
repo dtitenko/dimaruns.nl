@@ -1,6 +1,7 @@
 // Convention for JVM-only modules (e.g. the static-site generator).
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.plugin.serialization")
     id("dimaruns.quality")
 }
 

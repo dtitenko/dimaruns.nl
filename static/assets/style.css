@@ -1,0 +1,192 @@
+/* Plain modern CSS: custom properties, nesting, light/dark via prefers-color-scheme. No build step. */
+
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #59636e;
+  --accent: #1d4ed8;
+  --border: #d1d9e0;
+  --code-bg: #f6f8fa;
+  --measure: 42rem;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #9198a1;
+    --accent: #6ea8fe;
+    --border: #30363d;
+    --code-bg: #161b22;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  max-width: var(--measure);
+  background: var(--bg);
+  color: var(--fg);
+  font: 1.0625rem/1.65 var(--font-body);
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.15em;
+
+  &:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: -100vw;
+
+  &:focus {
+    left: 1rem;
+    top: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg);
+  }
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+
+  & .site-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  & ul {
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+main {
+  padding: 2rem 0 3rem;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & li + li {
+    margin-top: 2.5rem;
+  }
+
+  & h2 {
+    margin: 0 0 0.25rem;
+
+    & a {
+      color: var(--fg);
+      text-decoration: none;
+    }
+  }
+}
+
+.post-meta {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.tag {
+  color: var(--muted);
+}
+
+.tag-list {
+  padding-left: 1.25rem;
+}
+
+.post-body {
+  & img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  & pre {
+    overflow-x: auto;
+    padding: 1rem;
+    border-radius: 6px;
+    background: var(--code-bg);
+    font-size: 0.875rem;
+  }
+
+  & code {
+    font-family: var(--font-mono);
+  }
+
+  & :not(pre) > code {
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    background: var(--code-bg);
+    font-size: 0.9em;
+  }
+
+  & blockquote {
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+
+  & table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  & th,
+  & td {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+}
+
+.site-footer {
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.875rem;
+}

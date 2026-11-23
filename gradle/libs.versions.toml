@@ -5,6 +5,10 @@ kotlinx-datetime = "0.8.0"
 kotest = "6.2.7"
 ktlint-gradle = "14.2.0"
 kover = "0.9.11"
+commonmark = "0.33.0"
+kotlinx-html = "0.12.0"
+kaml = "0.104.0"
+clikt = "5.2.1"
 jvm-toolchain = "21"
 
 [libraries]
@@ -12,12 +16,23 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
+commonmark-ext-tables = { module = "org.commonmark:commonmark-ext-gfm-tables", version.ref = "commonmark" }
+commonmark-ext-strikethrough = { module = "org.commonmark:commonmark-ext-gfm-strikethrough", version.ref = "commonmark" }
+commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
+commonmark-ext-heading-anchor = { module = "org.commonmark:commonmark-ext-heading-anchor", version.ref = "commonmark" }
+kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinx-html" }
+kaml = { module = "com.charleskorn.kaml:kaml", version.ref = "kaml" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 
 # Plugin artifacts consumed by build-logic convention plugins
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-serialization-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 ktlint-gradle-plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
 kover-gradle-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
+
+[bundles]
+commonmark = ["commonmark-core", "commonmark-ext-tables", "commonmark-ext-strikethrough", "commonmark-ext-autolink", "commonmark-ext-heading-anchor"]
 
 [plugins]
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
