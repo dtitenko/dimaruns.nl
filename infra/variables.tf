@@ -26,5 +26,5 @@ variable "enable_dnssec" {
     `dnssec_ds_record` output to the registrar.
   EOT
   type        = bool
-  default     = false
+  default     = true
 }

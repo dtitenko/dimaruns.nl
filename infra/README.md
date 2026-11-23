@@ -50,8 +50,9 @@ Required repository settings:
 
 ## DNSSEC
 
-Once the zone is `active` (`scripts/tofu.sh output zone_status`):
+DNSSEC is on (`enable_dnssec = true`). Cloudflare signs the zone, and the registrar publishes the key at the `.nl` registry. The zone stays `pending` until the registry has it.
 
-1. Change the `enable_dnssec` default to `true` in `variables.tf`. Change it in code rather than locally, so CI applies the same thing.
-2. Apply.
-3. Add the `dnssec_ds_record` output at the registrar.
+- `scripts/tofu.sh output dnssec_ds_record` prints the DS record.
+- `.nl` registrars often ask for the DNSKEY instead: flags `257`, protocol `3`, algorithm `13`, and the `public_key` from `scripts/tofu.sh state show 'cloudflare_zone_dnssec.site[0]'`.
+
+To turn DNSSEC off, **first** remove the key at the registrar and wait for the DS record's TTL (1 hour). Only then set `enable_dnssec = false`. In the other order, validating resolvers treat the domain as broken.

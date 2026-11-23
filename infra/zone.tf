@@ -41,4 +41,10 @@ resource "cloudflare_zone_dnssec" "site" {
 
   zone_id = cloudflare_zone.site.id
   status  = "active"
+
+  # Cloudflare reports "pending" until the DS record is published at the registry, then
+  # flips to "active" by itself. Without this every plan in between shows a no-op update.
+  lifecycle {
+    ignore_changes = [status]
+  }
 }
