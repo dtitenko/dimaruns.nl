@@ -6,7 +6,7 @@ if (target) {
   fetch(`/api/views/${encodeURIComponent(target.dataset.views)}`, { method: 'POST' })
     .then((response) => (response.ok ? response.json() : null))
     .then((data) => {
-      if (data) target.textContent = ` · ${data.views.toLocaleString('en')} views`;
+      if (data) target.textContent = `, ${data.views.toLocaleString('en')} views`;
     })
     .catch(() => {});
 }

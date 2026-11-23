@@ -17,6 +17,8 @@ fun tagPath(tag: String): String = "/tags/$tag/"
  */
 class Templates(
     private val site: SiteConfig,
+    /** Maps an asset path to the URL to link, e.g. with a cache-busting version. */
+    private val asset: (String) -> String = { it },
 ) {
     private val dateFormat = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.ENGLISH)
 
@@ -36,7 +38,7 @@ class Templates(
                 div("post-body") { unsafe { +post.html } }
             }
             // External module script (not inline) so the strict CSP in static/_headers applies.
-            script(type = "module", src = "/assets/views.js") {}
+            script(type = "module", src = asset("/assets/views.js")) {}
         }
 
     fun tagIndex(tags: Map<String, List<Post>>): String =
@@ -95,8 +97,8 @@ class Templates(
                     link(href = "/feed.xml", rel = "alternate", type = "application/atom+xml") {
                         attributes["title"] = site.title
                     }
-                    link(href = "/assets/style.css", rel = "stylesheet")
-                    link(href = "/favicon.svg", rel = "icon", type = "image/svg+xml")
+                    link(href = asset("/assets/style.css"), rel = "stylesheet")
+                    link(href = asset("/favicon.svg"), rel = "icon", type = "image/svg+xml")
                     openGraph("og:type", type)
                     openGraph("og:title", title ?: site.title)
                     openGraph("og:description", description)
@@ -161,11 +163,11 @@ class Templates(
                 attributes["datetime"] = post.meta.date.toString()
                 +format(post.meta.date)
             }
-            +" · ${post.readingMinutes} min read"
+            +", ${post.readingMinutes} min read"
             // Filled in by /assets/views.js from the edge API.
             if (showViews) span { attributes["data-views"] = post.slug.value }
             if (post.meta.draft) {
-                +" · "
+                +", "
                 strong { +"Draft" }
             }
             post.meta.tags.forEach { tag ->

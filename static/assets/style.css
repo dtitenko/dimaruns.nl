@@ -1,27 +1,19 @@
-/* Plain modern CSS: custom properties, nesting, light/dark via prefers-color-scheme. No build step. */
+/*
+ * One-ink print: everything is set in carrot on white paper, like a single-colour riso print.
+ * Hierarchy comes from size, weight and italics, never from a second colour.
+ *
+ * Contrast on --paper: --ink 6.0:1 (body text, links), --carrot 3.3:1 (large type only).
+ */
 
 :root {
-  color-scheme: light dark;
-  --bg: #ffffff;
-  --fg: #1f2328;
-  --muted: #59636e;
-  --accent: #1d4ed8;
-  --border: #d1d9e0;
-  --code-bg: #f6f8fa;
-  --measure: 42rem;
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1117;
-    --fg: #e6edf3;
-    --muted: #9198a1;
-    --accent: #6ea8fe;
-    --border: #30363d;
-    --code-bg: #161b22;
-  }
+  color-scheme: light;
+  --paper: #ffffff;
+  --ink: #a6460a;
+  --carrot: #e8650c;
+  --wash: #fff1e6;
+  --measure: 38rem;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", "Iowan Old Style", Cambria, Georgia, serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
 }
 
 *,
@@ -30,23 +22,57 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  background: var(--paper);
+}
+
+/*
+ * The content column is framed by a double carrot rule: a border, and an outline 4px outside it.
+ * --gap keeps the frame off the window edge; --pad is the space between frame and text.
+ */
 body {
-  margin: 0 auto;
-  padding: 0 1.25rem;
-  max-width: var(--measure);
-  background: var(--bg);
-  color: var(--fg);
-  font: 1.0625rem/1.65 var(--font-body);
+  --gap: clamp(0.75rem, 3vw, 2.5rem);
+  --pad: clamp(1.1rem, 4.5vw, 3.25rem);
+
+  /* A wide frame (about 72% of the window); the text inside keeps a readable measure. */
+  width: min(100% - 2 * var(--gap), clamp(47rem, 72vw, 120ch));
+  margin: var(--gap) auto;
+  padding: 0 var(--pad);
+  border: 1px solid var(--carrot);
+  outline: 1px solid var(--carrot);
+  outline-offset: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 1.125rem/1.7 var(--serif);
+  font-kerning: normal;
   text-rendering: optimizeLegibility;
 }
 
+::selection {
+  background: var(--wash);
+  color: var(--ink);
+}
+
 a {
-  color: var(--accent);
-  text-underline-offset: 0.15em;
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
 
   &:hover {
+    color: var(--carrot);
     text-decoration-thickness: 2px;
   }
+}
+
+:focus-visible {
+  outline: 2px solid var(--carrot);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .visually-hidden {
@@ -66,23 +92,26 @@ a {
     left: 1rem;
     top: 1rem;
     padding: 0.5rem 1rem;
-    background: var(--bg);
+    background: var(--paper);
   }
 }
 
+/* Header: the name is the one loud thing on every page. */
+
 .site-header {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--border);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 3.5rem 0;
+  text-align: center;
 
   & .site-title {
+    color: var(--carrot);
+    font-size: 2.25rem;
     font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--fg);
+    letter-spacing: -0.02em;
+    line-height: 1;
     text-decoration: none;
   }
 
@@ -92,19 +121,63 @@ a {
     margin: 0;
     padding: 0;
     list-style: none;
+    font-style: italic;
+  }
+
+  & nav a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
+/* Text column: centred inside the frame at a comfortable line length. */
+main,
+.site-footer {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
 main {
-  padding: 2rem 0 3rem;
+  padding-bottom: 4rem;
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.25;
+  margin: 2.5rem 0 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
+
+h1 {
+  margin-top: 0;
+  color: var(--carrot);
+  font-size: 2.25rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+p,
+ul,
+ol,
+pre,
+blockquote,
+table {
+  margin: 0 0 1.25rem;
+}
+
+/* Post list on the home and tag pages. */
 
 .post-list {
   margin: 0;
@@ -112,81 +185,139 @@ h3 {
   list-style: none;
 
   & li + li {
-    margin-top: 2.5rem;
+    margin-top: 2.75rem;
   }
 
   & h2 {
-    margin: 0 0 0.25rem;
+    margin: 0 0 0.3rem;
+    font-size: 1.6rem;
 
     & a {
-      color: var(--fg);
+      color: var(--carrot);
       text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
+  }
+
+  & p {
+    margin: 0;
   }
 }
 
 .post-meta {
-  margin: 0 0 1rem;
-  color: var(--muted);
-  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-style: italic;
 }
 
+/* Tags are separated by plain spaces only, so every gap is equal and wrapped tags start flush left. */
 .tag {
-  color: var(--muted);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .tag-list {
-  padding-left: 1.25rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+/* Post body. */
+
+.post > header {
+  margin-bottom: 2.5rem;
 }
 
 .post-body {
+  hyphens: auto;
+
   & img {
     max-width: 100%;
     height: auto;
   }
 
-  & pre {
-    overflow-x: auto;
-    padding: 1rem;
-    border-radius: 6px;
-    background: var(--code-bg);
-    font-size: 0.875rem;
-  }
-
   & code {
-    font-family: var(--font-mono);
+    font-family: var(--mono);
+    font-size: 0.85em;
   }
 
   & :not(pre) > code {
-    padding: 0.1em 0.35em;
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    background: var(--wash);
+  }
+
+  & pre {
+    overflow-x: auto;
+    padding: 1rem 1.25rem;
     border-radius: 4px;
-    background: var(--code-bg);
-    font-size: 0.9em;
+    background: var(--wash);
+    line-height: 1.5;
   }
 
   & blockquote {
-    margin: 1.5rem 0;
-    padding-left: 1rem;
-    border-left: 3px solid var(--border);
-    color: var(--muted);
+    margin-left: 0;
+    padding-left: 1.25rem;
+    border-left: 3px solid var(--carrot);
+    font-style: italic;
   }
 
   & table {
     border-collapse: collapse;
     width: 100%;
+    font-size: 0.95rem;
   }
 
   & th,
   & td {
-    padding: 0.4rem 0.6rem;
-    border: 1px solid var(--border);
+    padding: 0.4rem 0.75rem 0.4rem 0;
+    border-bottom: 1px solid var(--wash);
     text-align: left;
+  }
+
+  & th {
+    border-bottom-color: var(--carrot);
+  }
+
+  & hr {
+    margin: 2.5rem 0;
+    border: 0;
+    text-align: center;
+
+    &::after {
+      content: "* * *";
+      color: var(--carrot);
+      letter-spacing: 0.5em;
+    }
   }
 }
 
 .site-footer {
-  padding: 2rem 0;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.875rem;
+  padding: 2rem 0 3rem;
+  font-size: 0.9rem;
+  font-style: italic;
+
+  & p {
+    margin: 0;
+  }
+}
+
+@media (max-width: 30rem) {
+  body {
+    font-size: 1.0625rem;
+  }
+
+  .site-header {
+    padding: 2.5rem 0;
+
+    & .site-title,
+    & ~ main h1 {
+      font-size: 1.85rem;
+    }
+  }
 }

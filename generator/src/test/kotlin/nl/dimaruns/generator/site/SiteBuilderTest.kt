@@ -110,6 +110,24 @@ class SiteBuilderTest :
             (out / "posts/secret-draft/index.html").readText() shouldContain "<strong>Draft</strong>"
         }
 
+        test("asset URLs carry a content hash that changes with the file") {
+            val static = staticFiles()
+
+            fun styleHref(out: Path) =
+                Regex("""href="(/assets/style\.css\?v=[0-9a-f]{10})"""")
+                    .find((out / "index.html").readText())
+                    ?.groupValues
+                    ?.get(1)
+
+            val before = styleHref(build(content(), static = static))
+            (static / "assets" / "style.css").writeText("body{color:red}")
+            val after = styleHref(build(content(), static = static))
+
+            withClue("before=$before after=$after") {
+                (before != null && after != null && before != after) shouldBe true
+            }
+        }
+
         test("stale files from a previous build are removed") {
             val out = Files.createTempDirectory("site") / "out"
             out.createDirectories()

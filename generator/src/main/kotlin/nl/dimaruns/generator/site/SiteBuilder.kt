@@ -4,6 +4,7 @@ import nl.dimaruns.generator.content.PostLoader
 import nl.dimaruns.generator.render.Feeds
 import nl.dimaruns.generator.render.Templates
 import java.nio.file.Path
+import java.security.MessageDigest
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.copyToRecursively
 import kotlin.io.path.createDirectories
@@ -12,6 +13,7 @@ import kotlin.io.path.div
 import kotlin.io.path.exists
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
+import kotlin.io.path.readBytes
 import kotlin.io.path.walk
 import kotlin.io.path.writeText
 
@@ -24,6 +26,13 @@ data class BuildOptions(
     val includeDrafts: Boolean = false,
     val baseUrlOverride: String? = null,
 )
+
+private fun contentHash(file: Path): String =
+    MessageDigest
+        .getInstance("SHA-256")
+        .digest(file.readBytes())
+        .joinToString("") { "%02x".format(it) }
+        .take(10)
 
 data class BuildReport(
     val posts: Int,
@@ -44,7 +53,6 @@ class SiteBuilder(
                 .flatMap { post -> post.meta.tags.map { it to post } }
                 .groupBy({ it.first }, { it.second })
                 .toSortedMap()
-        val templates = Templates(site)
 
         val out = options.outDir.toAbsolutePath().normalize()
         val contentRoot = options.contentRoot.toAbsolutePath().normalize()
@@ -52,6 +60,14 @@ class SiteBuilder(
         if (out.exists()) out.deleteRecursively()
         out.createDirectories()
         options.staticDir?.takeIf { it.isDirectory() }?.copyToRecursively(out, followLinks = false, overwrite = true)
+
+        // Cache busting: assets are linked as /path?v=<content hash>, so a changed file gets a new URL
+        // and browsers fetch it at once instead of serving a stale cached copy.
+        val templates =
+            Templates(site) { path ->
+                val file = out.resolve(path.removePrefix("/"))
+                if (file.isRegularFile()) "$path?v=${contentHash(file)}" else path
+            }
 
         fun write(
             relativePath: String,
