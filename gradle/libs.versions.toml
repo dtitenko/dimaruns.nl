@@ -1,0 +1,23 @@
+[versions]
+kotlin = "2.4.21"
+kotlinx-serialization = "1.13.0"
+kotlinx-datetime = "0.8.0"
+kotest = "6.2.7"
+ktlint-gradle = "14.2.0"
+kover = "0.9.11"
+jvm-toolchain = "21"
+
+[libraries]
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+
+# Plugin artifacts consumed by build-logic convention plugins
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-serialization-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+ktlint-gradle-plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle" }
+kover-gradle-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
+
+[plugins]
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

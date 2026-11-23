@@ -1,0 +1,15 @@
+.gradle/
+build/
+.kotlin/
+!gradle/wrapper/gradle-wrapper.jar
+dist/
+node_modules/
+.wrangler/
+.idea/
+*.iml
+.DS_Store
+.env
+.dev.vars
+*.tfstate
+*.tfstate.*
+.terraform/
