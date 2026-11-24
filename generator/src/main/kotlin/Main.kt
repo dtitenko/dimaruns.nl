@@ -13,7 +13,9 @@ import com.github.ajalt.clikt.parameters.types.path
 import com.sun.net.httpserver.SimpleFileServer
 import dimaruns.generator.content.ContentException
 import dimaruns.generator.site.BuildOptions
+import dimaruns.generator.site.DevServer
 import dimaruns.generator.site.SiteBuilder
+import dimaruns.generator.site.snapshot
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import kotlin.io.path.Path
@@ -79,4 +81,41 @@ private class Serve : CliktCommand(name = "serve") {
     }
 }
 
-fun main(args: Array<String>) = Generator().subcommands(Build(), Serve()).main(args)
+private class Dev : CliktCommand(name = "dev") {
+    override fun help(context: Context) = "Build, serve and rebuild on changes with browser live reload (local only)"
+
+    private val content by option().path(mustExist = true, canBeFile = false).default(Path("content"))
+    private val static by option().path(canBeFile = false).default(Path("static"))
+    private val out by option().path().default(Path("build/site"))
+    private val drafts by option(help = "Include draft posts").flag()
+    private val port by option().int().default(Serve.DEFAULT_PORT)
+
+    private fun rebuild() {
+        val started = TimeSource.Monotonic.markNow()
+        try {
+            val report = SiteBuilder().build(BuildOptions(content, static, out, drafts, "http://localhost:$port"))
+            echo("Rebuilt ${report.posts} post(s) in ${started.elapsedNow().inWholeMilliseconds} ms")
+        } catch (e: ContentException) {
+            echo(e.message, err = true)
+        }
+    }
+
+    override fun run() {
+        rebuild()
+        val server = DevServer(out.toAbsolutePath().normalize(), port)
+        server.start()
+        echo("Serving on http://localhost:$port with live reload, watching $content and $static (Ctrl+C to stop)")
+        var last = snapshot(listOf(content, static))
+        while (true) {
+            Thread.sleep(300)
+            val now = snapshot(listOf(content, static))
+            if (now != last) {
+                last = now
+                rebuild()
+                server.reload()
+            }
+        }
+    }
+}
+
+fun main(args: Array<String>) = Generator().subcommands(Build(), Serve(), Dev()).main(args)

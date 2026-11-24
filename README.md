@@ -34,6 +34,7 @@ Requires JDK 21. Everything else (Gradle, Node.js for the JS tests) is downloade
 ./gradlew ktlintFormat                     # auto-format
 ./gradlew :generator:generateSite          # render into generator/build/site
 ./gradlew :generator:serveSite             # render and preview on http://localhost:8080
+./gradlew :generator:devSite               # preview with rebuild + browser live reload on content/static changes
 ./gradlew :generator:serveSite -Pdrafts=true
 ./gradlew :generator:generateSite -PbaseUrl=https://preview.example.dev
 ```

@@ -67,6 +67,25 @@ tasks.register<JavaExec>("serveSite") {
     argumentProviders.add(CommandLineArgumentProvider { listOf("serve", "--dir", out.get().asFile.path) })
 }
 
+tasks.register<JavaExec>("devSite") {
+    group = "site"
+    description = "Serves the site on http://localhost:8080, rebuilding and live-reloading on content/static changes."
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass = application.mainClass
+    val content = contentDir.asFile.path
+    val static = staticDir.asFile.path
+    val out = layout.buildDirectory.dir("dev-site")
+    val drafts = includeDrafts
+    argumentProviders.add(
+        CommandLineArgumentProvider {
+            buildList {
+                addAll(listOf("dev", "--content", content, "--static", static, "--out", out.get().asFile.path))
+                if (drafts.get()) add("--drafts")
+            }
+        },
+    )
+}
+
 // SiteBuilderTest checks the real icon sprite against the icons the templates reference.
 tasks.test {
     val sprite = staticDir.file("assets/icons.svg")
