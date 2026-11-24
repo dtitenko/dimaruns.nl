@@ -5,13 +5,7 @@ summary: I missed sub-3 by 11 seconds in Valencia. Here is what I learned before
 tags: [running, motivation]
 ---
 
-Valencia, December 2025: I missed sub-3 by 11 seconds. Amsterdam, October 2026: I didn't. In between I learned a lot, mostly the hard way. Here are 15 lessons, from "do this or don't bother" down to "nice to know".
-
-## Work with a coach
-
-Like everyone, I started running without a coach and did several half marathons and one marathon on my own. Needless to say, I made so many mistakes, even after reading and researching the topic. I've now been working with my coach for the last 3 years, with almost no injuries, steady progress and, most importantly, results.
-
-A coach sees what you can't see in yourself. Left alone, you go too hard when you feel good and skip things when you don't. A coach builds the plan around your life and your weak spots, changes it when things go wrong, and has seen dozens of athletes make the exact mistake you are about to make. Best of all, they take the decisions off your shoulders: you just execute. Someone checking your log every week also does wonders for motivation on rainy Tuesdays. If sub-3 is the goal, this is the best money you will spend. Yes, better spent than on the shoes.
+Valencia, December 2025: I missed sub-3 by 11 seconds. Amsterdam, October 2026: I didn't. In between I learned a lot, mostly the hard way. Here are 15 lessons, whether you're chasing your first marathon or your first sub-3.
 
 ## Every workout matters, even if it doesn’t look good. Trust the process
 
@@ -74,6 +68,12 @@ Easy running matters. Religiously staying in Zone 2 doesn't. For many runners it
 ## Plated shoes work, but train in simple shoes
 
 Carbon plates work; use them on race day. For daily training, normal shoes make your feet, ankles and calves do the work, and that makes you stronger. Running everything in super shoes hides your weaknesses and burns through very expensive foam. Save the plated pair for key workouts, a few long runs and the race, and test them over a long distance first. The shoe helps, but the engine is still you.
+
+## Work with a coach
+
+Like everyone, I started running without a coach and did several half marathons and one marathon on my own. Needless to say, I made so many mistakes, even after reading and researching the topic. I've now been working with my coach for the last 3 years, with almost no injuries, steady progress and, most importantly, results.
+
+A coach sees what you can't see in yourself. Left alone, you go too hard when you feel good and skip things when you don't. A coach builds the plan around your life and your weak spots, changes it when things go wrong, and has seen dozens of athletes make the exact mistake you are about to make. Best of all, they take the decisions off your shoulders: you just execute. Someone checking your log every week also does wonders for motivation on rainy Tuesdays. If sub-3 is the goal, this is the best money you will spend. Yes, better spent than on the shoes.
 
 ## Celebration time has to be planned in
 
