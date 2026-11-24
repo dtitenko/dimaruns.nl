@@ -20,6 +20,12 @@ class PostMetaTest {
     }
 
     @Test
+    fun imageMustBeRootRelative() {
+        assertEquals(1, valid.copy(image = "og.jpg").validate().size)
+        assertTrue(valid.copy(image = "/assets/og.jpg").validate().isEmpty())
+    }
+
+    @Test
     fun reportsAllProblemsAtOnce() {
         val problems = valid.copy(title = " ", slug = "Bad Slug", tags = listOf("Kotlin", "x", "x")).validate()
         assertEquals(4, problems.size, problems.toString())

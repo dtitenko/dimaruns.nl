@@ -33,6 +33,29 @@ class PostLoaderTest :
             loader.load(content.posts, includeDrafts = false).single().excerpt shouldBe "Short."
         }
 
+        test("decodes race results, numbering and image from front matter") {
+            val content =
+                TestContent().post(
+                    "a.md",
+                    """
+                    title: A
+                    date: 2026-01-01
+                    numbered: true
+                    image: /assets/a.jpg
+                    results:
+                      - { race: Valencia, date: Dec 2025, time: "3:00:11", note: 11 seconds short }
+                      - { race: Amsterdam, date: Oct 2026, time: "2:56:47", win: true }
+                    """,
+                )
+
+            val meta = loader.load(content.posts, includeDrafts = false).single().meta
+
+            meta.numbered shouldBe true
+            meta.image shouldBe "/assets/a.jpg"
+            meta.results.map { it.time } shouldContainExactly listOf("3:00:11", "2:56:47")
+            meta.results.map { it.win } shouldContainExactly listOf(false, true)
+        }
+
         test("drafts are excluded unless requested") {
             val content =
                 TestContent()

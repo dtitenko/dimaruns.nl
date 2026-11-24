@@ -14,6 +14,9 @@ data class PostMeta(
     val summary: String? = null,
     val tags: List<String> = emptyList(),
     val draft: Boolean = false,
+    val image: String? = null,
+    val numbered: Boolean = false,
+    val results: List<RaceResult> = emptyList(),
 ) {
     /** Explicit slug if given, otherwise derived from the title. */
     val resolvedSlug: Slug
@@ -21,6 +24,15 @@ data class PostMeta(
             slug?.let { Slug.parse(it) ?: error("Invalid slug '$it' in post '$title'") }
                 ?: Slug.fromTitle(title)
 }
+
+@Serializable
+data class RaceResult(
+    val race: String,
+    val date: String,
+    val time: String,
+    val note: String = "",
+    val win: Boolean = false,
+)
 
 /** Validation problems are collected rather than thrown, so a build can report all of them at once. */
 fun PostMeta.validate(): List<String> =
@@ -32,4 +44,5 @@ fun PostMeta.validate(): List<String> =
         }
         tags.filter { Slug.parse(it) == null }.forEach { add("tag '$it' must be lowercase-kebab-case") }
         if (tags.size != tags.toSet().size) add("tags contain duplicates")
+        if (image != null && !image.startsWith("/")) add("image '$image' must be a root-relative path")
     }

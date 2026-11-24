@@ -1,5 +1,6 @@
 package dimaruns.generator.content
 
+import dimaruns.generator.render.Heading
 import dimaruns.shared.PostMeta
 import dimaruns.shared.Slug
 
@@ -11,6 +12,7 @@ data class Post(
     val html: String,
     val excerpt: String,
     val readingMinutes: Int,
+    val headings: List<Heading> = emptyList(),
 ) {
     /** Root-relative URL of the post page. Root-relative links keep preview deploys working on any host. */
     val path: String get() = "/posts/$slug/"

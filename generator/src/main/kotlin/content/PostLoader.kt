@@ -70,6 +70,7 @@ class PostLoader(
                 html = rendered.html,
                 excerpt = meta.summary ?: rendered.firstParagraph.truncate(MAX_EXCERPT_LENGTH),
                 readingMinutes = ceil(rendered.wordCount / WORDS_PER_MINUTE).toInt().coerceAtLeast(1),
+                headings = rendered.headings,
             )
         return ParseResult(post, emptyList())
     }

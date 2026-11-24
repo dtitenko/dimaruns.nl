@@ -10,13 +10,23 @@ import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 import org.commonmark.renderer.text.TextContentRenderer
 
+data class Heading(
+    val id: String,
+    val text: String,
+)
+
 data class RenderedMarkdown(
     val html: String,
     val wordCount: Int,
     val firstParagraph: String,
+    val headings: List<Heading> = emptyList(),
 )
 
 private val WHITESPACE = Regex("\\s+")
+private val H2 = Regex("""<h2 id="([^"]+)">(.*?)</h2>""")
+private val TAG = Regex("<[^>]+>")
+
+fun String.noBreakSub3(): String = replace("sub-3", "sub\u20113")
 
 /**
  * CommonMark + GFM tables, strikethrough and autolinks. Headings get `id`s for deep links.
@@ -50,10 +60,26 @@ class MarkdownRenderer {
                 .firstOrNull { it is Paragraph }
                 ?.let { textRenderer.render(it).replace(WHITESPACE, " ").trim() }
                 .orEmpty()
+        val headings = mutableListOf<Heading>()
+        val html =
+            H2.replace(htmlRenderer.render(document).noBreakSub3()) { match ->
+                val (id, inner) = match.destructured
+                headings += Heading(id, unescapeHtml(inner.replace(TAG, "")))
+                """<h2 id="$id">$inner <a class="anchor" href="#$id" aria-label="Link to this section">#</a></h2>"""
+            }
         return RenderedMarkdown(
-            html = htmlRenderer.render(document),
+            html = html,
             wordCount = text.split(WHITESPACE).count { it.isNotBlank() },
             firstParagraph = firstParagraph,
+            headings = headings,
         )
     }
 }
+
+private fun unescapeHtml(text: String): String =
+    text
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&#39;", "'")
+        .replace("&amp;", "&")
