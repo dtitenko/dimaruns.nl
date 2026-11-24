@@ -615,32 +615,33 @@ main > h1 {
 }
 
 .post-body {
-  font-size: 1rem;
-  line-height: 1.7;
+  max-width: 68ch; /* 45–75 chars per line reads best */
+  font-size: 1.125rem;
+  line-height: 1.65;
 
   & h1,
   & h2 {
     color: var(--heading-color);
-    font-weight: 900;
+    font-weight: 700;
   }
 
   & h1 {
-    margin: 3.5rem 0 1.75rem;
-    font-size: 2.6rem;
+    margin: 3rem 0 1.25rem;
+    font-size: 2rem;
   }
 
   & h2 {
-    margin: 3.2rem 0 1.5rem;
-    font-size: 2.2rem;
+    margin: 2.75rem 0 1rem;
+    font-size: 1.5rem;
   }
 
   & p {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
   }
 
   & h3 {
-    margin: 2rem 0 1rem;
-    font-size: 1.5rem;
+    margin: 2rem 0 0.75rem;
+    font-size: 1.25rem;
   }
 
   & > p > a {
