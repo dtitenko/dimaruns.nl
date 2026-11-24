@@ -12,6 +12,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldNotContain
 import org.w3c.dom.Document
+import org.w3c.dom.Element
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.xml.parsers.DocumentBuilderFactory
@@ -39,6 +40,8 @@ class SiteBuilderTest :
             (static / "assets" / "style.css").writeText("body{}")
             (static / "favicon.svg").writeText("<svg/>")
             (static / "assets" / "views.js").writeText("")
+            (static / "assets" / "icons.svg").writeText("<svg/>")
+            (static / "assets" / "theme.js").writeText("")
             return static
         }
 
@@ -84,6 +87,21 @@ class SiteBuilderTest :
                     .toList()
 
             brokenLinks.shouldBeEmpty()
+        }
+
+        test("the real icon sprite parses and defines every icon the pages use") {
+            // Path passed in by generator/build.gradle.kts, which also declares it as a test input.
+            val sprite = parseXml(Path.of(System.getProperty("iconSprite")))
+            val symbols = sprite.getElementsByTagName("symbol")
+            val defined = (0 until symbols.length).map { (symbols.item(it) as Element).getAttribute("id") }.toSet()
+            val used =
+                build(content())
+                    .walk()
+                    .filter { it.extension == "html" }
+                    .flatMap { page -> ICON.findAll(page.readText()).map { it.groupValues[1] } }
+                    .toSet()
+
+            (used - defined).shouldBeEmpty()
         }
 
         test("escapes titles in HTML and produces well-formed feeds") {
@@ -155,6 +173,8 @@ class SiteBuilderTest :
     })
 
 private val HREF = Regex("""(?:href|src)="(/[^"#?]*)""")
+
+private val ICON = Regex("""icons\.svg[^"#]*#([\w-]+)""")
 
 private fun internalLinks(html: String): List<String> = HREF.findAll(html).map { it.groupValues[1] }.toList()
 

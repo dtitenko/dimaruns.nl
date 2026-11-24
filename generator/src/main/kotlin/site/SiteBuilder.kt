@@ -64,7 +64,7 @@ class SiteBuilder(
         // Cache busting: assets are linked as /path?v=<content hash>, so a changed file gets a new URL
         // and browsers fetch it at once instead of serving a stale cached copy.
         val templates =
-            Templates(site) { path ->
+            Templates(site, recent = posts.take(5), allTags = tags) { path ->
                 val file = out.resolve(path.removePrefix("/"))
                 if (file.isRegularFile()) "$path?v=${contentHash(file)}" else path
             }

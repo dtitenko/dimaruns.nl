@@ -6,10 +6,13 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
+import java.time.Year
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun tagPath(tag: String): String = "/tags/$tag/"
+
+private const val EMAIL = "d.titenko@gmail.com"
 
 /**
  * Type-safe HTML templates. Output contains no inline scripts or styles, so it works with a strict CSP.
@@ -17,10 +20,14 @@ fun tagPath(tag: String): String = "/tags/$tag/"
  */
 class Templates(
     private val site: SiteConfig,
+    /** Newest posts, listed in the sidebar of every page. */
+    private val recent: List<Post> = emptyList(),
+    /** All tags with their posts, listed in the sidebar of every page. */
+    private val allTags: Map<String, List<Post>> = emptyMap(),
     /** Maps an asset path to the URL to link, e.g. with a cache-busting version. */
     private val asset: (String) -> String = { it },
 ) {
-    private val dateFormat = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.ENGLISH)
+    private val dateFormat = DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.ENGLISH)
 
     fun index(posts: List<Post>): String =
         page(title = null, description = site.description, path = "/") {
@@ -33,7 +40,7 @@ class Templates(
             article("post") {
                 header {
                     h1 { +post.meta.title }
-                    postMeta(post, showViews = true)
+                    postMeta(post, full = true)
                 }
                 div("post-body") { unsafe { +post.html } }
             }
@@ -99,6 +106,8 @@ class Templates(
                     }
                     link(href = asset("/assets/style.css"), rel = "stylesheet")
                     link(href = asset("/favicon.svg"), rel = "icon", type = "image/svg+xml")
+                    // Classic (blocking) script so the saved theme applies before first paint.
+                    script(src = asset("/assets/theme.js")) {}
                     openGraph("og:type", type)
                     openGraph("og:title", title ?: site.title)
                     openGraph("og:description", description)
@@ -109,6 +118,7 @@ class Templates(
                     a("#main", classes = "skip-link") { +"Skip to content" }
                     header("site-header") {
                         a("/", classes = "site-title") { +site.title }
+                        themeSwitcher()
                         nav {
                             attributes["aria-label"] = "Main"
                             ul {
@@ -118,15 +128,121 @@ class Templates(
                             }
                         }
                     }
-                    main {
-                        id = "main"
-                        content()
+                    div("layout") {
+                        main {
+                            id = "main"
+                            content()
+                        }
+                        sidebar()
                     }
                     footer("site-footer") {
-                        p { +"© ${site.author}" }
+                        div("social") {
+                            socialLinks(size = 32)
+                            a("/feed.xml") {
+                                attributes["title"] = "Feed"
+                                attributes["aria-label"] = "Feed"
+                                icon("rss", 32)
+                            }
+                        }
+                        p { +"© ${Year.now()} ${site.author}" }
                     }
                 }
             }
+
+    private fun FlowContent.sidebar() =
+        aside("sidebar") {
+            attributes["aria-label"] = "About"
+            section("bio") {
+                hr("hr-slash")
+                // shortcut: the favicon stands in for a profile photo; add a real one to static/ and link it here.
+                img(alt = site.author, src = asset("/favicon.svg"), classes = "bio-photo")
+                hr("hr-slash")
+                p("bio-name") { +site.author }
+                p("bio-desc") { +"Runner and software engineer" }
+                p("bio-info") {
+                    icon("location", 20)
+                    +"The Hague, The Netherlands"
+                }
+                p("bio-info") {
+                    icon("email", 20)
+                    a("mailto:$EMAIL") { +EMAIL }
+                }
+                p("bio-info") {
+                    icon("link", 20)
+                    a(site.baseUrl) { +site.baseUrl }
+                }
+                div("social") { socialLinks(size = 25) }
+            }
+            hr("hr-fade")
+            if (recent.isNotEmpty()) {
+                section("sidebar-recent") {
+                    h2 { +"Posts" }
+                    ul { recent.forEach { li { a(it.path) { +it.meta.title } } } }
+                }
+            }
+            if (allTags.isNotEmpty()) {
+                section("sidebar-tags") {
+                    h2 { +"Tags" }
+                    allTags.forEach { (tag, posts) ->
+                        span("tag-count") {
+                            a(tagPath(tag), classes = "tag") { +tag }
+                            +" ${posts.size}"
+                        }
+                        +" "
+                    }
+                }
+            }
+        }
+
+    /** Theme picker driven by /assets/theme.js; the theme names match the palettes in style.css. */
+    private fun FlowContent.themeSwitcher() =
+        div("theme-switcher") {
+            button(type = ButtonType.button) {
+                attributes["aria-label"] = "Select theme"
+                attributes["aria-expanded"] = "false"
+                icon("theme", 22)
+            }
+            ul {
+                listOf("dark", "light", "hacker", "solarized", "kimbie").forEach { theme ->
+                    li {
+                        button(type = ButtonType.button) {
+                            attributes["data-set-theme"] = theme
+                            attributes["aria-pressed"] = (theme == "dark").toString()
+                            +theme
+                        }
+                    }
+                }
+            }
+        }
+
+    private fun FlowContent.socialLinks(size: Int) {
+        listOf(
+            "Strava" to "https://www.strava.com/athletes/33489329",
+            "GitHub" to "https://github.com/dtitenko/",
+            "LinkedIn" to "https://www.linkedin.com/in/dtitenko/",
+            "Email" to "mailto:$EMAIL",
+        ).forEach { (name, url) ->
+            a(url) {
+                if (url.startsWith("http")) {
+                    target = "_blank"
+                    rel = "noopener noreferrer"
+                }
+                attributes["title"] = name
+                attributes["aria-label"] = name
+                icon(name.lowercase(), size)
+            }
+        }
+    }
+
+    /** A decorative icon from the /assets/icons.svg sprite, drawn in currentColor. */
+    private fun HTMLTag.icon(
+        id: String,
+        size: Int,
+    ) = unsafe {
+        +"""<svg width="$size" height="$size" aria-hidden="true"><use href="${asset(
+            "/assets/icons.svg",
+        )}#$id"/></svg>"""
+    }
 
     private fun HEAD.openGraph(
         property: String,
@@ -154,25 +270,28 @@ class Templates(
         }
     }
 
+    /** Date and reading time as on the reference design; the post page adds views, draft flag and tags. */
     private fun FlowContent.postMeta(
         post: Post,
-        showViews: Boolean = false,
+        full: Boolean = false,
     ) {
         p("post-meta") {
             time {
                 attributes["datetime"] = post.meta.date.toString()
-                +format(post.meta.date)
+                +"📅 ${format(post.meta.date)}"
             }
-            +", ${post.readingMinutes} min read"
+            +" · ☕ ${post.readingMinutes} min read"
             // Filled in by /assets/views.js from the edge API.
-            if (showViews) span { attributes["data-views"] = post.slug.value }
+            if (full) span { attributes["data-views"] = post.slug.value }
             if (post.meta.draft) {
                 +", "
                 strong { +"Draft" }
             }
-            post.meta.tags.forEach { tag ->
-                +" "
-                a(tagPath(tag), classes = "tag") { +"#$tag" }
+            if (full) {
+                post.meta.tags.forEach { tag ->
+                    +" "
+                    a(tagPath(tag), classes = "tag") { +"#$tag" }
+                }
             }
         }
     }

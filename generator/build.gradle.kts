@@ -67,5 +67,12 @@ tasks.register<JavaExec>("serveSite") {
     argumentProviders.add(CommandLineArgumentProvider { listOf("serve", "--dir", out.get().asFile.path) })
 }
 
+// SiteBuilderTest checks the real icon sprite against the icons the templates reference.
+tasks.test {
+    val sprite = staticDir.file("assets/icons.svg")
+    inputs.file(sprite).withPropertyName("iconSprite").withPathSensitivity(PathSensitivity.NONE)
+    systemProperty("iconSprite", sprite.asFile.path)
+}
+
 // CI's `build` also proves that all content is valid and the site renders.
 tasks.named("build") { dependsOn(generateSite) }
