@@ -9,6 +9,8 @@ Valencia, December 2025: I missed sub-3 by 11 seconds. Amsterdam, October 2026: 
 
 ## Work with a coach
 
+Like everyone, I started running without a coach and did several half marathons and one marathon on my own. Needless to say, I made so many mistakes, even after reading and researching the topic. I've now been working with my coach for the last 3 years, with almost no injuries, steady progress and, most importantly, results.
+
 A coach sees what you can't see in yourself. Left alone, you go too hard when you feel good and skip things when you don't. A coach builds the plan around your life and your weak spots, changes it when things go wrong, and has seen dozens of athletes make the exact mistake you are about to make. Best of all, they take the decisions off your shoulders: you just execute. Someone checking your log every week also does wonders for motivation on rainy Tuesdays. If sub-3 is the goal, this is the best money you will spend. Yes, better spent than on the shoes.
 
 ## Every workout matters, even if it doesn’t look good. Trust the process
