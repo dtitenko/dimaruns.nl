@@ -40,9 +40,13 @@ class SiteBuilderTest :
             (static / "assets" / "style.css").writeText("body{}")
             (static / "favicon.svg").writeText("<svg/>")
             (static / "assets" / "views.js").writeText("")
+            (static / "assets" / "post.js").writeText("")
             (static / "assets" / "icons.svg").writeText("<svg/>")
             (static / "assets" / "theme.js").writeText("")
             (static / "assets" / "avatar.jpg").writeText("")
+            (static / "assets" / "fonts").createDirectories()
+            (static / "assets" / "fonts" / "barlow-condensed-700-normal.woff2").writeText("")
+            (static / "assets" / "fonts" / "source-serif-4-400-normal.woff2").writeText("")
             return static
         }
 
@@ -65,6 +69,7 @@ class SiteBuilderTest :
                 "posts/first-post/index.html",
                 "posts/second-post-more/index.html",
                 "tags/index.html",
+                "about/index.html",
                 "tags/kotlin/index.html",
                 "tags/edge/index.html",
                 "404.html",
@@ -112,7 +117,7 @@ class SiteBuilderTest :
             val feed = parseXml(out / "feed.xml")
             feed.getElementsByTagName("entry").length shouldBe 2
             feed.getElementsByTagName("title").item(1).textContent shouldBe "Second <Post> & more"
-            parseXml(out / "sitemap.xml").getElementsByTagName("url").length shouldBe 6
+            parseXml(out / "sitemap.xml").getElementsByTagName("url").length shouldBe 7
         }
 
         test("base URL override is used for absolute URLs only") {
@@ -122,6 +127,25 @@ class SiteBuilderTest :
             html shouldContain "<link href=\"https://preview.example.dev/posts/first-post/\" rel=\"canonical\">"
             html shouldNotContain "example.test"
             (out / "robots.txt").readText() shouldContain "https://preview.example.dev/sitemap.xml"
+        }
+
+        test("posts carry share metadata, Article JSON-LD and neighbour links") {
+            val html = build(content()).resolve("posts/first-post/index.html").readText()
+
+            html shouldContain "<meta property=\"og:image\" content=\"https://example.test/assets/og-default.jpg\">"
+            html shouldContain "<meta name=\"twitter:card\" content=\"summary_large_image\">"
+            html shouldContain "<meta name=\"theme-color\" content=\"#161517\" media=\"(prefers-color-scheme: dark)\">"
+            html shouldContain "\"@type\":\"Article\",\"headline\":\"First Post\""
+            html shouldContain "Next post"
+            html shouldNotContain "Previous post"
+            html shouldContain "<a href=\"/\" aria-current=\"page\">Writing</a>"
+        }
+
+        test("JSON-LD escapes text so it cannot close the script element") {
+            val content = TestContent().site().post("x.md", "title: 'Ends </script> here'\ndate: 2026-01-01")
+            val html = build(content).resolve("posts/ends-script-here/index.html").readText()
+
+            html shouldContain """"headline":"Ends \u003c/script> here""""
         }
 
         test("drafts are rendered and marked when requested") {

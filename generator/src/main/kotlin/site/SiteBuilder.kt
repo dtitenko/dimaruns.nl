@@ -64,7 +64,7 @@ class SiteBuilder(
         // Cache busting: assets are linked as /path?v=<content hash>, so a changed file gets a new URL
         // and browsers fetch it at once instead of serving a stale cached copy.
         val templates =
-            Templates(site, recent = posts.take(5), allTags = tags) { path ->
+            Templates(site) { path ->
                 val file = out.resolve(path.removePrefix("/"))
                 if (file.isRegularFile()) "$path?v=${contentHash(file)}" else path
             }
@@ -79,7 +79,10 @@ class SiteBuilder(
         }
 
         write("index.html", templates.index(posts))
-        posts.forEach { write("posts/${it.slug}/index.html", templates.post(it)) }
+        posts.forEachIndexed { i, post ->
+            write("posts/${post.slug}/index.html", templates.post(post, posts.getOrNull(i - 1), posts.getOrNull(i + 1)))
+        }
+        write("about/index.html", templates.about())
         write("tags/index.html", templates.tagIndex(tags))
         tags.forEach { (tag, tagged) -> write("tags/$tag/index.html", templates.tag(tag, tagged)) }
         write("404.html", templates.notFound())

@@ -1,11 +1,16 @@
 ---
 title: 15 lessons from sub-3 marathon training
 date: 2026-11-23
-summary: I missed sub-3 by 11 seconds in Valencia. Here is what I learned before Amsterdam.
+slug: 15-lessons-from-sub-3-marathon-training
+summary: I missed sub-3 by 11 seconds in Valencia. Ten months later I ran 2:56:47 in Amsterdam. Here's everything I learned in between.
 tags: [running, motivation]
+numbered: true
+results:
+  - { race: Valencia, date: Dec 2025, time: "3:00:11", note: 11 seconds short }
+  - { race: Amsterdam, date: Oct 2026, time: "2:56:47", note: "Sub-3 ✓", win: true }
 ---
 
-Valencia, December 2025: I missed sub-3 by 11 seconds. Amsterdam, October 2026: I didn't. In between I learned a lot, mostly the hard way. Here are 15 lessons, whether you're chasing your first marathon or your first sub-3.
+Valencia, December 2025: I missed sub-3 by 11 seconds. Amsterdam, October 2026: I ran 2:56:47. In between I learned a lot, mostly the hard way. Here are 15 lessons, whether you're chasing your first marathon or your first sub-3.
 
 ## Every workout matters, even if it doesn’t look good. Trust the process
 

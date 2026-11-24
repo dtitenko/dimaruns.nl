@@ -30,6 +30,17 @@ class MarkdownRendererTest :
             renderer.render("## Getting started").html shouldContain "<h2 id=\"getting-started\">"
         }
 
+        test("lists h2 headings and adds a self-link anchor to each") {
+            val rendered = renderer.render("## Carbs & water\n\nText.\n\n### Detail\n\n## Sleep")
+            rendered.headings shouldBe listOf(Heading("carbs--water", "Carbs & water"), Heading("sleep", "Sleep"))
+            rendered.html shouldContain
+                "<a class=\"anchor\" href=\"#sleep\" aria-label=\"Link to this section\">#</a></h2>"
+        }
+
+        test("keeps sub-3 from breaking across lines") {
+            renderer.render("A sub-3 race").html shouldContain "sub\u20113"
+        }
+
         test("keeps language classes on fenced code blocks") {
             renderer.render("```kotlin\nval x = 1\n```").html shouldContain "class=\"language-kotlin\""
         }
