@@ -35,7 +35,7 @@ class Templates(
             h1("visually-hidden") { +site.title }
             section("intro") {
                 p("lede") {
-                    +"I’m Dima, a software engineer in The Hague. I write about chasing a sub\u20113 marathon."
+                    +"I’m Dima, a software engineer in The Hague. I write about IT, running and traveling."
                 }
                 byline()
             }
@@ -138,7 +138,7 @@ class Templates(
                 }
                 p("lede") {
                     +"I’m Dima (${site.author}), a runner and software engineer in The Hague, The Netherlands. "
-                    +"I write about chasing a sub\u20113 marathon and what I learn along the way, mostly the hard way."
+                    +"I write about IT, running and traveling, and what I learn along the way, mostly the hard way."
                 }
                 ul("contact-list") {
                     contact("strava", "Strava", STRAVA)
@@ -303,7 +303,7 @@ class Templates(
                 }
                 p("endcard-bio") {
                     +"I’m Dima, a runner and software engineer in The Hague. "
-                    +"I write about marathon training and what I learn the hard way."
+                    +"I write about IT, running and traveling."
                 }
                 div("actions") {
                     a(STRAVA, classes = "btn btn-primary") {
