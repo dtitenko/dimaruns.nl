@@ -154,8 +154,7 @@ class Templates(
             attributes["aria-label"] = "About"
             section("bio") {
                 hr("hr-slash")
-                // shortcut: the favicon stands in for a profile photo; add a real one to static/ and link it here.
-                img(alt = site.author, src = asset("/favicon.svg"), classes = "bio-photo")
+                img(alt = site.author, src = asset("/assets/avatar.jpg"), classes = "bio-photo")
                 hr("hr-slash")
                 p("bio-name") { +site.author }
                 p("bio-desc") { +"Runner and software engineer" }

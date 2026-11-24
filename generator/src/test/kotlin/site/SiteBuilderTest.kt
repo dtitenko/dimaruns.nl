@@ -42,6 +42,7 @@ class SiteBuilderTest :
             (static / "assets" / "views.js").writeText("")
             (static / "assets" / "icons.svg").writeText("<svg/>")
             (static / "assets" / "theme.js").writeText("")
+            (static / "assets" / "avatar.jpg").writeText("")
             return static
         }
 
