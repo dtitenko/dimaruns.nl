@@ -83,6 +83,8 @@ A coach sees what you can't see in yourself. Left alone, you go too hard when yo
 
 The race is the goal, but it is not the end of the story. After months of discipline, the celebration deserves a plan too: book the dinner, invite the people who supported you, and take real time off running.
 
-After the Amsterdam Marathon, I hadn't planned a celebration and went hiking in Switzerland with my son right away. I was in a hurry to leave early on Sunday afternoon to beat the traffic and cover as many kilometers as possible that day. The rush took away a big part of an incredible achievement: the sub-3 marathon I had dreamed about for so long. Staying for a beer with friends from the club would have made it so much nicer. Instead, I celebrated my dream sub-3 on the motorway.
+After the Amsterdam Marathon, I hadn't planned a celebration and went hiking in Switzerland with my son right away. Don't get me wrong: my little one is my greatest supporter, and I'm his hero, so he was super happy for my achievement. The trip wasn't the problem. The hurry was.
+
+I wanted to leave early on Sunday afternoon to beat the traffic and cover as many kilometers as possible that day. Within a few hours of the finish line, I was packing the car instead of letting it sink in. That rush took away a big part of the joy of an incredible achievement: the sub-3 marathon I had dreamed about for so long. Staying for a beer with friends from the club would have made it so much nicer. Instead, I celebrated my dream sub-3 on the motorway.
 
 Celebrate the work, not only the time on the clock.
