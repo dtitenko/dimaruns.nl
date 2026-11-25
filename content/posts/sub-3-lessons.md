@@ -1,16 +1,15 @@
 ---
-title: 15 lessons from sub-3 marathon training
+title: 15 lessons from sub-3 journey
 date: 2026-11-23
 slug: 15-lessons-from-sub-3-marathon-training
-summary: I missed sub-3 by 11 seconds in Valencia. Ten months later I ran 2:56:47 in Amsterdam. Here's everything I learned in between.
+summary: Eight marathons in three and a half years, from 4:18 in Utrecht to 2:56:47 in Amsterdam. Here's what they taught me, mostly the hard way.
 tags: [running, motivation]
 numbered: true
-results:
-  - { race: Valencia, date: Dec 2025, time: "3:00:11", note: 11 seconds short }
-  - { race: Amsterdam, date: Oct 2026, time: "2:56:47", note: "Sub-3 ✓", win: true }
+image: /assets/marathon-progress.png
+imageAlt: "Line chart of my marathon finish times, 2023 to 2026: Utrecht 4:18:04, Rotterdam 3:35:05, Valencia 3:08:06, Rome 3:32:10, Lake Garda 3:14:20, Berlin 3:13:06, Valencia 3:00:11 and Amsterdam 2:56:47, the first one under three hours."
 ---
 
-Valencia, December 2025: I missed sub-3 by 11 seconds. Amsterdam, October 2026: I ran 2:56:47. In between I learned a lot, mostly the hard way. Here are 15 lessons, whether you're chasing your first marathon or your first sub-3.
+My first marathon was Utrecht, May 2023: 4:18, no coach and plenty of mistakes. Three and a half years and seven marathons later, I ran 2:56:47 in Amsterdam. In between came Rotterdam, Valencia twice, Rome, Lake Garda and Berlin: personal bests, bad days, and one sub-3 missed by 11 seconds. Here are 15 lessons from the whole journey, whether you're training for your first marathon or chasing your first sub-3.
 
 ## Every workout matters, even if it doesn’t look good. Trust the process
 
@@ -28,7 +27,7 @@ Marathon pace at sub-3 runs on carbohydrates, and your tank is small. This is no
 
 Strength work is not about bigger legs. In the last kilometers it is not your legs that collapse first, it's your posture, and that is held up by your core, hips and glutes. A strong core keeps you upright and efficient; strong hips keep your knees out of trouble. Fewer injuries means more weeks of uninterrupted training, and consistency beats everything. Two short sessions a week are enough, as long as you don't "forget" them.
 
-## Stretching is critical. 50% is running, 50% is stretching
+## Mobility work is critical. 50% is running, 50% is mobility work
 
 Yes, 50%. Every kilometer makes you a bit tighter, and tight muscles change your stride until something breaks. Mobility work after runs is what lets your body absorb the volume a sub-3 plan asks for. It doesn't have to be long, but it has to be as regular as the runs. The runner who stays healthy for the whole block beats the one who trained harder for half of it and then watched the race on TV.
 

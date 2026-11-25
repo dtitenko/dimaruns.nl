@@ -410,6 +410,22 @@ main {
   margin-top: 4rem;
 }
 
+.cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.post-main > .cover {
+  margin-bottom: 3rem;
+}
+
+.card > .cover {
+  margin-top: 1.25rem;
+}
+
 .post-aside {
   grid-column: 2;
   align-self: stretch;

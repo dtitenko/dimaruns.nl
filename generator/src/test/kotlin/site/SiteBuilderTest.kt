@@ -141,6 +141,20 @@ class SiteBuilderTest :
             html shouldContain "<a href=\"/\" aria-current=\"page\">Writing</a>"
         }
 
+        test("a post image is the share image and the cover on the post and its card") {
+            val content =
+                TestContent().site().post(
+                    "x.md",
+                    "title: Pic\ndate: 2026-01-01\nimage: /assets/pic.png\nimageAlt: A chart",
+                )
+            val out = build(content)
+            val img = "<img alt=\"A chart\" src=\"/assets/pic.png\" class=\"cover\""
+
+            (out / "posts/pic/index.html").readText() shouldContain img
+            (out / "posts/pic/index.html").readText() shouldContain "content=\"https://example.test/assets/pic.png\""
+            (out / "index.html").readText() shouldContain img
+        }
+
         test("JSON-LD escapes text so it cannot close the script element") {
             val content = TestContent().site().post("x.md", "title: 'Ends </script> here'\ndate: 2026-01-01")
             val html = build(content).resolve("posts/ends-script-here/index.html").readText()

@@ -66,6 +66,7 @@ class Templates(
                 }
                 if (post.meta.results.isNotEmpty()) results(post.meta.results)
                 div("post-main") {
+                    post.meta.image?.let { img(alt = post.meta.imageAlt, src = asset(it), classes = "cover") }
                     if (post.meta.numbered && post.headings.isNotEmpty()) {
                         details("toc-mobile") {
                             summary { +"Jump to a lesson (${post.headings.size})" }
@@ -426,6 +427,12 @@ class Templates(
                         postMeta(post)
                         h2 { a(post.path, classes = "card-link") { +post.meta.title.noBreakSub3() } }
                         p("dek") { +post.excerpt.noBreakSub3() }
+                        post.meta.image?.let {
+                            img(alt = post.meta.imageAlt, src = asset(it), classes = "cover") {
+                                attributes["loading"] =
+                                    "lazy"
+                            }
+                        }
                         if (post.meta.results.isNotEmpty()) results(post.meta.results, compact = true)
                     }
                 }

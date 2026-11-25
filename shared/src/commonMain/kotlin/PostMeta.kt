@@ -15,6 +15,7 @@ data class PostMeta(
     val tags: List<String> = emptyList(),
     val draft: Boolean = false,
     val image: String? = null,
+    val imageAlt: String = "",
     val numbered: Boolean = false,
     val results: List<RaceResult> = emptyList(),
 ) {
