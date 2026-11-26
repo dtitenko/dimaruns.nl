@@ -1,6 +1,6 @@
 ## Summary
 
-Senior full-stack software engineer and former technical lead with 15 years of experience building product
+Senior full-stack software engineer and former technical lead with 17 years of experience building product
 software. At Miro I work across React/TypeScript front-ends and Java/Kotlin back-ends, delivering monetization,
 voice and AI features. I have a strong background in designing distributed systems (CQRS, Event Sourcing, DDD),
 in cloud (AWS, Azure) and in CI/CD and DevOps culture. I lead teams, mentor engineers and improve how teams
