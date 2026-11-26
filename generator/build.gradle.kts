@@ -7,6 +7,7 @@ dependencies {
     implementation(project(":shared"))
     implementation(libs.bundles.commonmark)
     implementation(libs.kotlinx.html)
+    implementation(libs.openhtmltopdf)
     implementation(libs.kaml)
     implementation(libs.clikt)
 }

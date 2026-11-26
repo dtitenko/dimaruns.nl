@@ -1,0 +1,86 @@
+@page {
+  size: A4;
+  margin: 16mm 16mm 14mm;
+}
+
+body {
+  margin: 0;
+  color: #222;
+  font-family: Barlow, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.4;
+}
+
+a {
+  color: #1f6f8b;
+  text-decoration: none;
+}
+
+header {
+  margin-bottom: 4px;
+  padding-bottom: 8px;
+  border-bottom: 2.5px solid #263a4a;
+}
+
+h1 {
+  margin: 0;
+  color: #263a4a;
+  font-size: 26pt;
+  font-weight: 700;
+}
+
+.headline {
+  margin: 0 0 4px;
+  color: #1f6f8b;
+  font-size: 12.5pt;
+  font-weight: 600;
+}
+
+.contact {
+  margin: 0;
+  color: #444;
+  font-size: 10pt;
+}
+
+h2 {
+  margin: 14px 0 6px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #c9d3da;
+  color: #263a4a;
+  font-size: 11.5pt;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  page-break-after: avoid;
+}
+
+h3 {
+  margin: 10px 0 2px;
+  color: #263a4a;
+  font-size: 11pt;
+  font-weight: 700;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 0 0 6px;
+}
+
+ul {
+  margin: 2px 0 6px;
+  padding-left: 17px;
+}
+
+li {
+  margin-bottom: 2px;
+  page-break-inside: avoid;
+}
+
+strong {
+  color: #263a4a;
+  font-weight: 600;
+}
+
+.anchor {
+  display: none;
+}

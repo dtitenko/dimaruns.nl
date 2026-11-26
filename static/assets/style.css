@@ -909,6 +909,24 @@ main {
   }
 }
 
+.resume {
+  max-width: 44rem;
+
+  & .lede {
+    color: var(--text);
+  }
+
+  & .post-body {
+    margin-top: 2.5rem;
+    font-size: 1.0625rem;
+  }
+
+  & .post-body h2 {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.75rem;
+  }
+}
+
 .contact-list {
   padding: 0;
   list-style: none;

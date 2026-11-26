@@ -11,6 +11,8 @@ import io.kotest.matchers.paths.shouldNotExist
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldNotContain
+import org.apache.pdfbox.Loader
+import org.apache.pdfbox.text.PDFTextStripper
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import java.nio.file.Files
@@ -20,6 +22,7 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.div
 import kotlin.io.path.extension
 import kotlin.io.path.isRegularFile
+import kotlin.io.path.readBytes
 import kotlin.io.path.readText
 import kotlin.io.path.walk
 import kotlin.io.path.writeText
@@ -70,6 +73,7 @@ class SiteBuilderTest :
                 "posts/second-post-more/index.html",
                 "tags/index.html",
                 "about/index.html",
+                "resume/index.html",
                 "tags/kotlin/index.html",
                 "tags/edge/index.html",
                 "404.html",
@@ -117,7 +121,16 @@ class SiteBuilderTest :
             val feed = parseXml(out / "feed.xml")
             feed.getElementsByTagName("entry").length shouldBe 2
             feed.getElementsByTagName("title").item(1).textContent shouldBe "Second <Post> & more"
-            parseXml(out / "sitemap.xml").getElementsByTagName("url").length shouldBe 7
+            parseXml(out / "sitemap.xml").getElementsByTagName("url").length shouldBe 8
+        }
+
+        test("the resume PDF is generated from resume.md") {
+            val pdf = build(content()) / "assets/dmytro-titenko-cv.pdf"
+            val text = Loader.loadPDF(pdf.readBytes()).use { PDFTextStripper().getText(it) }
+
+            text shouldContain "Tester"
+            text shouldContain "Test resume."
+            text shouldContain "example.test/resume/"
         }
 
         test("base URL override is used for absolute URLs only") {

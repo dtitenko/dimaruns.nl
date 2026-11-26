@@ -22,6 +22,7 @@ class TestContent(
                 baseUrl: $baseUrl
                 """.trimIndent(),
             )
+            (root / "resume.md").writeText("## Summary\n\nTest resume.\n")
         }
 
     fun post(

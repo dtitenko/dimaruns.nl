@@ -2,6 +2,9 @@ package dimaruns.generator.site
 
 import dimaruns.generator.content.PostLoader
 import dimaruns.generator.render.Feeds
+import dimaruns.generator.render.MarkdownRenderer
+import dimaruns.generator.render.RESUME_PDF
+import dimaruns.generator.render.ResumePdf
 import dimaruns.generator.render.Templates
 import java.nio.file.Path
 import java.security.MessageDigest
@@ -14,6 +17,7 @@ import kotlin.io.path.exists
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.readBytes
+import kotlin.io.path.readText
 import kotlin.io.path.walk
 import kotlin.io.path.writeText
 
@@ -83,6 +87,11 @@ class SiteBuilder(
             write("posts/${post.slug}/index.html", templates.post(post, posts.getOrNull(i - 1), posts.getOrNull(i + 1)))
         }
         write("about/index.html", templates.about())
+        val resume = MarkdownRenderer().render((options.contentRoot / "resume.md").readText()).html
+        val resumePdf = out.resolve(RESUME_PDF.removePrefix("/"))
+        resumePdf.parent.createDirectories()
+        ResumePdf.write(templates.resumePdf(resume), resumePdf)
+        write("resume/index.html", templates.resume(resume))
         write("tags/index.html", templates.tagIndex(tags))
         tags.forEach { (tag, tagged) -> write("tags/$tag/index.html", templates.tag(tag, tagged)) }
         write("404.html", templates.notFound())

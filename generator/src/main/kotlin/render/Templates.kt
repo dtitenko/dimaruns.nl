@@ -18,6 +18,8 @@ private const val EMAIL = "d.titenko@gmail.com"
 private const val STRAVA = "https://www.strava.com/athletes/33489329"
 private const val DEFAULT_IMAGE = "/assets/og-default.jpg"
 private const val BIO_ROLE = "Runner and software engineer, The Hague"
+private const val HEADLINE = "Senior Software Engineer · Full-Stack · Technical Lead"
+const val RESUME_PDF = "/assets/dmytro-titenko-cv.pdf"
 
 /**
  * Type-safe HTML templates. Output contains no inline scripts or styles, so it works with a strict CSP.
@@ -146,8 +148,54 @@ class Templates(
                     contact("github", "GitHub", "https://github.com/dtitenko/")
                     contact("linkedin", "LinkedIn", "https://www.linkedin.com/in/dtitenko/")
                     contact("email", EMAIL, "mailto:$EMAIL")
+                    contact("link", "Resume", "/resume/")
                     contact("rss", "RSS feed", "/feed.xml")
                 }
+            }
+        }
+
+    fun resume(html: String): String =
+        page(title = "Resume", description = "Resume of ${site.author}, senior software engineer", path = "/resume/") {
+            div("resume") {
+                h1("page-title") { +"Resume" }
+                p("lede") { +"${site.author}, $HEADLINE. The Hague, The Netherlands." }
+                div("actions") {
+                    a(asset(RESUME_PDF), classes = "btn btn-primary") {
+                        attributes["download"] = "Dmytro Titenko CV.pdf"
+                        +"Download CV (PDF)"
+                    }
+                    a("https://www.linkedin.com/in/dtitenko/", classes = "btn") {
+                        target = "_blank"
+                        rel = "noopener noreferrer"
+                        +"LinkedIn"
+                    }
+                }
+                div("post-body") { unsafe { +html } }
+            }
+        }
+
+    fun resumePdf(html: String): String =
+        createHTML(prettyPrint = false, xhtmlCompatible = true).html {
+            attributes["lang"] = site.language
+            head {
+                meta(charset = "utf-8")
+                title("${site.author} CV")
+                style { unsafe { +RESUME_PRINT_CSS } }
+            }
+            body {
+                header {
+                    h1 { +site.author }
+                    p("headline") { +HEADLINE }
+                    p("contact") {
+                        +"The Hague, The Netherlands · "
+                        a("mailto:$EMAIL") { +EMAIL }
+                        +" · "
+                        a("https://www.linkedin.com/in/dtitenko/") { +"linkedin.com/in/dtitenko" }
+                        +" · "
+                        a(site.absolute("/resume/")) { +site.absolute("/resume/").substringAfter("://") }
+                    }
+                }
+                unsafe { +html }
             }
         }
 
@@ -221,9 +269,8 @@ class Templates(
                                 attributes["aria-label"] = "Main"
                                 ul {
                                     navItem("/", "Writing", path == "/" || path.startsWith("/posts/"))
-                                    navItem("/tags/", "Tags", path.startsWith("/tags/"))
                                     navItem("/about/", "About", path == "/about/")
-                                    navItem("/feed.xml", "RSS", false)
+                                    navItem("/resume/", "Resume", path == "/resume/")
                                 }
                             }
                             themeSwitcher()
@@ -479,6 +526,8 @@ class Templates(
 
     private fun format(date: LocalDate): String = date.toJavaLocalDate().format(dateFormat)
 }
+
+private val RESUME_PRINT_CSS = Templates::class.java.getResource("/resume-print.css")!!.readText()
 
 private fun mailtoEncode(text: String): String = URLEncoder.encode(text, Charsets.UTF_8).replace("+", "%20")
 

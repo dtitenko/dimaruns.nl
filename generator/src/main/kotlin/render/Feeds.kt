@@ -63,6 +63,7 @@ object Feeds {
             url(site.absolute("/"), posts.maxOfOrNull { it.meta.date })
             posts.forEach { url(site.absolute(it.path), it.meta.date) }
             url(site.absolute("/about/"), null)
+            url(site.absolute("/resume/"), null)
             url(site.absolute("/tags/"), null)
             tags.forEach { url(site.absolute(tagPath(it)), null) }
             writeEndElement()

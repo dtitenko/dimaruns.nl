@@ -10,6 +10,7 @@ kotlinx-html = "0.12.0"
 kaml = "0.104.0"
 clikt = "5.2.1"
 kotlinx-coroutines = "1.11.0"
+openhtmltopdf = "1.1.117"
 jvm-toolchain = "21"
 
 [libraries]
@@ -22,6 +23,7 @@ commonmark-ext-tables = { module = "org.commonmark:commonmark-ext-gfm-tables", v
 commonmark-ext-strikethrough = { module = "org.commonmark:commonmark-ext-gfm-strikethrough", version.ref = "commonmark" }
 commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
 commonmark-ext-heading-anchor = { module = "org.commonmark:commonmark-ext-heading-anchor", version.ref = "commonmark" }
+openhtmltopdf = { module = "io.github.openhtmltopdf:openhtmltopdf-pdfbox", version.ref = "openhtmltopdf" }
 kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinx-html" }
 kaml = { module = "com.charleskorn.kaml:kaml", version.ref = "kaml" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
