@@ -19,6 +19,10 @@ Some sessions will feel heavy, slow and ugly, and your watch will judge you. Ign
 
 Pace lies, heart rate doesn't. Wind, hills, heat and a bad night's sleep all change what a given pace costs you, and heart rate hands you the bill honestly. In training it keeps easy days easy and tells you when you are not recovered. In the race it is your early-warning system: if it drifts up in the first half, you are borrowing energy from kilometer 30, and the interest rate is brutal. Learn what marathon heart rate feels like in training, then trust it over the adrenaline on race day.
 
+One tip: buy a chest strap heart rate monitor. Other types are unreliable, and the optical sensor on your watch is almost useless while running. Cadence lock, a loose strap or a cold wrist, and it shows numbers that have nothing to do with your heart. If you are going to trust a number, make sure it is the right one.
+
+And if you're serious about training by heart rate, functional diagnostics is a good investment. A lab test determines your precise heart rate zones and your current VO2 max, instead of relying on formulas or your watch's estimates.
+
 ## Carbs are your friend. So is water
 
 Marathon pace at sub-3 runs on carbohydrates, and your tank is small. This is not the time for your keto experiment. Eat enough carbs during heavy weeks, not only before the race, and practice fueling in long runs so your stomach learns to handle gels at race pace instead of filing a complaint at kilometer 25. In the race, take carbs and water early and regularly, long before you feel you need them. By the time you are hungry, thirsty or dizzy, it is too late. Grabbing a cup at race pace without wearing it is a skill too, so practice that as well.
@@ -64,6 +68,8 @@ During my last progression run, I wanted to stop after kilometer 4 of 28. The ph
 Pacers, groups and friends on the course are nice, but they can't run a single kilometer for you. Know your own plan, your own pace and your own heart rate, and run it no matter who is around you.
 
 At the 2026 Amsterdam Marathon, I started at a 4:25 pace and let the 3:00 pacers go immediately. Around kilometer 30, I overtook the first two of them. A pace group looks like a free ride, but in reality it is a tight crowd of nervous people, where one clipped heel at a water station ends your day. No, thank you.
+
+There is nothing positive about a positive split. Start slower than your target pace and let your body wake up and fully switch on. The time you "lose" in the first kilometers is nothing compared to what you lose by blowing up after 30.
 
 ## Zone 2 training is overrated
 
